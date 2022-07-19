@@ -8,7 +8,7 @@ RUN go mod download
 COPY cmd/ /src/cmd/
 
 RUN go mod download \
-    && GOOS=linux go build -v -o bin/sms github.com/itsalex/sentry-mattermost-sidecar/cmd/sms
+    && GOOS=linux go build -v -o bin/sms github.com/cheald/sentry-mattermost-integration/cmd/sms
 
 FROM alpine:3.14.2
 

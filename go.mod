@@ -1,4 +1,4 @@
-module github.com/itsalex/sentry-mattermost-sidecar
+module github.com/cheald/sentry-mattermost-integration
 
 go 1.17
 

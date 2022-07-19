@@ -26,4 +26,4 @@ Events handled
 
 ## Deploy
 
-This image is automatically deployed and versionned as a docker image at [cheald/sentry-mattermost-integration](https://hub.docker.com/r/itsalex/sentry-mattermost-integration).
+This image is automatically deployed and versionned as a docker image at [cheald/sentry-mattermost-integration](https://hub.docker.com/r/cheald/sentry-mattermost-integration).
