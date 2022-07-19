@@ -1,0 +1,103 @@
+{
+  "action": "triggered",
+  "installation": { "uuid": "5bd7ae05-29c5-495e-9a37-6c887d42fb2e" },
+  "data": {
+    "event": {
+      "event_id": "2367f95d839840c29308aa6122b9219e",
+      "project": 1132523,
+      "release": null,
+      "dist": null,
+      "platform": "ruby",
+      "message": "",
+      "datetime": "2022-07-19T18:05:00.000000Z",
+      "tags": [
+        ["environment", "us"],
+        ["level", "error"],
+        ["os", "Linux #76~18.04.1-Ubuntu SMP Mon Mar 28 17:49:57 UTC 2022"],
+        ["os.name", "Linux"],
+        [
+          "runtime",
+          "ruby ruby 2.7.5p203 (2021-11-24 revision f69aeb8314) [x86_64-linux]"
+        ],
+        ["runtime.name", "ruby"],
+        ["server_name", "aws-az-app1-ids-us"]
+      ],
+      "_metrics": { "bytes.ingested.event": 6432, "bytes.stored.event": 7459 },
+      "_ref": 1132523,
+      "_ref_version": 2,
+      "contexts": {
+        "os": {
+          "name": "Linux",
+          "version": "#76~18.04.1-Ubuntu SMP Mon Mar 28 17:49:57 UTC 2022",
+          "build": "5.4.0-1071-aws",
+          "kernel_version": "#76~18.04.1-Ubuntu SMP Mon Mar 28 17:49:57 UTC 2022",
+          "type": "os"
+        },
+        "runtime": {
+          "name": "ruby",
+          "version": "ruby 2.7.5p203 (2021-11-24 revision f69aeb8314) [x86_64-linux]",
+          "type": "runtime"
+        }
+      },
+      "culprit": "(irb) in irb_binding",
+      "environment": "us",
+      "exception": {
+        "values": [
+          {
+            "type": "RuntimeError",
+            "value": "Test 2",
+            "module": "",
+            "stacktrace": {
+              "frames": [
+                {
+                  "function": "irb_binding",
+                  "filename": "(irb)",
+                  "abs_path": "(irb)",
+                  "lineno": 6,
+                  "in_app": false
+                }
+              ]
+            },
+            "thread_id": 59520
+          }
+        ]
+      },
+      "fingerprint": ["{{ default }}"],
+      "grouping_config": {
+        "enhancements": "eJybzDRxY3J-bm5-npWRgaGlroGxrpHxBABcYgcZ",
+        "id": "newstyle:2019-05-08"
+      },
+      "hashes": ["05bc379aa18b40c3188e52a2cd72fa03"],
+      "key_id": "554315",
+      "level": "error",
+      "location": "(irb)",
+      "logger": "",
+      "metadata": {
+        "display_title_with_tree_label": false,
+        "filename": "(irb)",
+        "function": "irb_binding",
+        "type": "RuntimeError",
+        "value": "Test 2"
+      },
+      "modules": {
+        "zxcvbn-ruby": "1.2.0"
+      },
+      "nodestore_insert": 1658253903.965828,
+      "received": 1658253900.252287,
+      "sdk": { "name": "sentry.ruby", "version": "5.0.2" },
+      "threads": {
+        "values": [{ "id": 59520, "crashed": true, "current": true }]
+      },
+      "timestamp": 1658253900.0,
+      "title": "RuntimeError: Test 2",
+      "type": "error",
+      "version": "7",
+      "url": "https://sentry.io/api/0/projects/ttiltd/ids/events/2367f95d839840c29308aa6122b9219e/",
+      "web_url": "https://sentry.io/organizations/ttiltd/issues/3439270622/events/2367f95d839840c29308aa6122b9219e/",
+      "issue_url": "https://sentry.io/api/0/issues/3439270622/",
+      "issue_id": "3439270622"
+    },
+    "triggered_rule": "Send a notification for new issues"
+  },
+  "actor": { "type": "application", "id": "sentry", "name": "Sentry" }
+}

@@ -1,0 +1,52 @@
+{
+  "action": "resolved",
+  "installation": { "uuid": "5bd7ae05-29c5-495e-9a37-6c887d42fb2e" },
+  "data": {
+    "resolution_type": "now",
+    "issue": {
+      "id": "3437849202",
+      "shareId": null,
+      "shortId": "PROJECT-D3",
+      "title": "Elasticsearch::Transport::Transport::Errors::BadRequest: [400] {\"error\":{\"root_cause\":[{\"type\":\"mapper_parsing_exception\",\"reason\":\"Root mapping definitio...",
+      "culprit": "Sidekiq/IndexerJob",
+      "permalink": null,
+      "logger": null,
+      "level": "error",
+      "status": "resolved",
+      "statusDetails": {},
+      "isPublic": false,
+      "platform": "ruby",
+      "project": {
+        "id": "1862260",
+        "name": "Rails",
+        "slug": "project-slug",
+        "platform": "ruby-rails"
+      },
+      "type": "error",
+      "metadata": {
+        "value": "[400] {\"error\":{\"root_cause\":[{\"type\":\"mapper_parsing_exception\",\"reason\":\"Root mapping definition has unsupported parameters:  [comfy/cms/page : {_routing={}, dynamic_templates=[{string_template={mapping={ignore_above=30000, type=keyword, fields={}}, match_mapping_type=string, match=*}}], properties={content_cache={ignore_above=30000, type=keyword, fields={analyzed={analyzer=searchkick_index, index=true, type=text}}}, label={ignore_above=30000, type=keyword, fields={word_start={analyzer=searchkick_word_start_index, index=true, type=text}, analyzed={analyzer=searchkick_index, index=true, type=text}, suggest={analyzer=searchkick_suggest_index, index=true, type=text}}}, full_path={ignore_above=30000, type=keyword, fields={analyzed={analyzer=searchkick_index, index=true, type=text}}}}}]\"}],\"type\":\"mapper_parsing_exception\",\"reason\":\"Failed to parse mapping [_doc]: Root mapping definition has unsupported parameters:  [comfy/cms/page : {_routing={}, dynamic_templates=[{string_template={mapping={ignore_above=300...",
+        "type": "Elasticsearch::Transport::Transport::Errors::BadRequest",
+        "filename": "app/models/external_resource.rb",
+        "function": "update_research",
+        "display_title_with_tree_label": false
+      },
+      "numComments": 0,
+      "assignedTo": null,
+      "isBookmarked": false,
+      "isSubscribed": false,
+      "subscriptionDetails": null,
+      "hasSeen": false,
+      "annotations": [],
+      "isUnhandled": false,
+      "count": "27",
+      "userCount": 0,
+      "firstSeen": "2022-07-19T07:42:24.000000Z",
+      "lastSeen": "2022-07-19T18:27:25.000000Z"
+    }
+  },
+  "actor": {
+    "type": "user",
+    "id": 2969631,
+    "name": "some.user@domain.com"
+  }
+}

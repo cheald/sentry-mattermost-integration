@@ -10,7 +10,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
-	"github.com/tidwall/gjson"
 )
 
 func init() {
@@ -22,10 +21,6 @@ func init() {
 
 	viper.SetDefault("addr", "0.0.0.0")
 	viper.SetDefault("port", "1323")
-
-	if viper.GetString("mattermost_webhook_url") == "" {
-		log.Fatalf("SMS_MATTERMOST_WEBHOOK_URL environment variable must be set!")
-	}
 }
 
 func main() {
@@ -33,46 +28,30 @@ func main() {
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
 
+	if viper.GetString("mattermost_webhook_url") == "" {
+		log.Fatalf("SMS_MATTERMOST_WEBHOOK_URL environment variable must be set!")
+	}
+
 	r.POST("/:channel", func(c *gin.Context) {
 		channel := c.Param("channel")
 
 		jsonByteData, err := ioutil.ReadAll(c.Request.Body)
+		fmt.Println(string(jsonByteData))
+
 		if err != nil {
 			log.Fatalf("Error reading body: %v", err)
 		}
-		jsonStringData := string(jsonByteData)
 
-		postBody, err := json.Marshal(map[string]interface{}{
-			"channel": channel,
-			"attachments": []interface{}{
-				map[string]interface{}{
-					"title":       gjson.Get(jsonStringData, "event.title").String(),
-					"color":       "#FF0000",
-					"author_name": "Sentry",
-					"author_icon": "https://assets.stickpng.com/images/58482eedcef1014c0b5e4a76.png",
-					"title_link":  gjson.Get(jsonStringData, "url").String(),
-					"fields": []interface{}{
-						map[string]interface{}{
-							"short": false,
-							"title": "Culprit",
-							"value": gjson.Get(jsonStringData, "culprit").String(),
-						},
-						map[string]interface{}{
-							"short": false,
-							"title": "Project",
-							"value": gjson.Get(jsonStringData, "project_slug").String(),
-						},
-						map[string]interface{}{
-							"short": false,
-							"title": "Environment",
-							"value": gjson.Get(jsonStringData, "event.environment").String(),
-						},
-					},
-				},
-			},
-		})
+		event, err := ProcessEvent(channel, jsonByteData)
 		if err != nil {
-			log.Fatalf("Error during json marshal: %v", err)
+			c.AbortWithStatus(http.StatusBadRequest)
+			return
+		}
+
+		postBody, err := json.Marshal(event)
+		if err != nil {
+			c.AbortWithStatus(http.StatusBadRequest)
+			return
 		}
 
 		resp, err := http.Post(

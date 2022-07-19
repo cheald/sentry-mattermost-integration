@@ -20,14 +20,14 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           platforms: linux/amd64,linux/arm64
-          tags: itsalex/sentry-mattermost-sidecar:test-build-ci
+          tags: cheald/sentry-mattermost-integration:test-build-ci
           file: Dockerfile
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
 
   pre-release:
     name: "Pre Release"
-    if: ${{ github.repository == 'Its-Alex/sentry-mattermost-sidecar' && contains(github.ref, 'refs/heads/main') }}
+    if: ${{ github.repository == 'cheald/sentry-mattermost-integration' && contains(github.ref, 'refs/heads/master') }}
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout project
@@ -40,15 +40,15 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.ITSALEX_DOCKER_REGISTRY_USERNAME }}
-          password: ${{ secrets.ITSALEX_DOCKER_REGISTRY_PASSWORD }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: itsalex/sentry-mattermost-sidecar:latest
+          tags: cheald/sentry-mattermost-integration:latest
           file: Dockerfile
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
@@ -62,7 +62,7 @@ jobs:
 
   tagged-release:
     name: "Tagged Release"
-    if: ${{ github.repository == 'Its-Alex/sentry-mattermost-sidecar' && contains(github.ref, 'refs/tags/v') }}
+    if: ${{ github.repository == 'cheald/sentry-mattermost-integration' && contains(github.ref, 'refs/tags/v') }}
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout project
@@ -79,15 +79,15 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.ITSALEX_DOCKER_REGISTRY_USERNAME }}
-          password: ${{ secrets.ITSALEX_DOCKER_REGISTRY_PASSWORD }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: itsalex/sentry-mattermost-sidecar:${{ steps.branch_name.outputs.TAG_VERSION }}
+          tags: cheald/sentry-mattermost-sidecar:${{ steps.branch_name.outputs.TAG_VERSION }}
           file: Dockerfile
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
