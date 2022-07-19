@@ -163,6 +163,62 @@ type CreatedAlert struct {
 	} `json:"data"`
 }
 
+type ResolvedAlert struct {
+	Action       string `json:"action"`
+	Installation struct {
+		UUID string `json:"uuid"`
+	} `json:"installation"`
+	Data struct {
+		ResolutionType string `json:"resolution_type"`
+		Issue          struct {
+			ID            string      `json:"id"`
+			ShareID       interface{} `json:"shareId"`
+			ShortID       string      `json:"shortId"`
+			Title         string      `json:"title"`
+			Culprit       string      `json:"culprit"`
+			Permalink     interface{} `json:"permalink"`
+			Logger        interface{} `json:"logger"`
+			Level         string      `json:"level"`
+			Status        string      `json:"status"`
+			StatusDetails struct {
+			} `json:"statusDetails"`
+			IsPublic bool   `json:"isPublic"`
+			Platform string `json:"platform"`
+			Project  struct {
+				ID       string `json:"id"`
+				Name     string `json:"name"`
+				Slug     string `json:"slug"`
+				Platform string `json:"platform"`
+			} `json:"project"`
+			Type     string `json:"type"`
+			Metadata struct {
+				Value                     string `json:"value"`
+				Type                      string `json:"type"`
+				Filename                  string `json:"filename"`
+				Function                  string `json:"function"`
+				DisplayTitleWithTreeLabel bool   `json:"display_title_with_tree_label"`
+			} `json:"metadata"`
+			NumComments         int           `json:"numComments"`
+			AssignedTo          interface{}   `json:"assignedTo"`
+			IsBookmarked        bool          `json:"isBookmarked"`
+			IsSubscribed        bool          `json:"isSubscribed"`
+			SubscriptionDetails interface{}   `json:"subscriptionDetails"`
+			HasSeen             bool          `json:"hasSeen"`
+			Annotations         []interface{} `json:"annotations"`
+			IsUnhandled         bool          `json:"isUnhandled"`
+			Count               string        `json:"count"`
+			UserCount           int           `json:"userCount"`
+			FirstSeen           time.Time     `json:"firstSeen"`
+			LastSeen            time.Time     `json:"lastSeen"`
+		} `json:"issue"`
+	} `json:"data"`
+	Actor struct {
+		Type string `json:"type"`
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"actor"`
+}
+
 type WebhookPayload struct {
 	Channel     string       `json:"channel"`
 	Attachments []Attachment `json:"attachments"`

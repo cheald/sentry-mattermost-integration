@@ -24,6 +24,8 @@ func ProcessEvent(channel string, in []byte) (out *WebhookPayload, err error) {
 	return result, err
 }
 
+/**
+TODO: Flesh these out and then wire them up in ProcessEvent
 func CreatedEvent(in []byte) (out *WebhookPayload, err error) {
 	var payload CreatedAlert
 	err = json.Unmarshal(in, &payload)
@@ -46,6 +48,29 @@ func CreatedEvent(in []byte) (out *WebhookPayload, err error) {
 
 	return body, nil
 }
+
+func ResolvedEvent(in []byte) (out *WebhookPayload, err error) {
+	var payload ResolvedAlert
+	err = json.Unmarshal(in, &payload)
+	if err != nil {
+		return nil, fmt.Errorf("Error unmarshaling payload: %v", err)
+	}
+	issue := payload.Data.Issue
+
+	body := &WebhookPayload{
+		Attachments: []Attachment{
+			{
+				Title:      fmt.Sprintf("%s - %s", issue.ShortID, issue.Title),
+				Color:      "#00FF00",
+				AuthorName: "Sentry",
+				AuthorIcon: "https://assets.stickpng.com/images/58482eedcef1014c0b5e4a76.png",
+				TitleLink:  fmt.Sprintf("%s", issue.Permalink),
+			},
+		},
+	}
+
+	return body, nil
+}*/
 
 func tagsToFields(tags [][]string, suppressedTags map[string]bool) []*Field {
 	fields := make([]*Field, 0)
