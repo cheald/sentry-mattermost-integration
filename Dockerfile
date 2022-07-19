@@ -4,6 +4,7 @@ WORKDIR /src
 
 COPY go.mod /src/
 COPY go.sum /src/
+RUN go mod download
 COPY cmd/ /src/cmd/
 
 RUN go mod download \

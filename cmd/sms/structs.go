@@ -2,73 +2,65 @@ package main
 
 import "time"
 
-// EventAlert represents an event payload
-type EventAlert struct {
+type Alert struct {
 	Action string `json:"action"`
-	Data   struct {
+}
+
+// TriggeredAlert represents an event payload for a triggered issue
+type TriggeredAlert struct {
+	Action       string `json:"action"`
+	Installation struct {
+		UUID string `json:"uuid"`
+	} `json:"installation"`
+	Data struct {
 		Event struct {
-			EventID     string      `json:"event_id"`
-			Project     int         `json:"project"`
-			ProjectSlug int         `json:"project_slug"`
-			Release     interface{} `json:"release"`
-			Dist        interface{} `json:"dist"`
-			Platform    string      `json:"platform"`
-			Message     string      `json:"message"`
-			Datetime    time.Time   `json:"datetime"`
-			Tags        [][]string  `json:"tags"`
-			Metrics     struct {
+			EventID  string      `json:"event_id"`
+			Project  int         `json:"project"`
+			Release  interface{} `json:"release"`
+			Dist     interface{} `json:"dist"`
+			Platform string      `json:"platform"`
+			Message  string      `json:"message"`
+			Datetime time.Time   `json:"datetime"`
+			Tags     [][]string  `json:"tags"`
+			Metrics  struct {
 				BytesIngestedEvent int `json:"bytes.ingested.event"`
 				BytesStoredEvent   int `json:"bytes.stored.event"`
 			} `json:"_metrics"`
-			RelayProcessed bool   `json:"_relay_processed"`
-			Culprit        string `json:"culprit"`
-			Environment    string `json:"environment"`
-			Exception      struct {
+			Ref        int `json:"_ref"`
+			RefVersion int `json:"_ref_version"`
+			Contexts   struct {
+				Os struct {
+					Name          string `json:"name"`
+					Version       string `json:"version"`
+					Build         string `json:"build"`
+					KernelVersion string `json:"kernel_version"`
+					Type          string `json:"type"`
+				} `json:"os"`
+				Runtime struct {
+					Name    string `json:"name"`
+					Version string `json:"version"`
+					Type    string `json:"type"`
+				} `json:"runtime"`
+			} `json:"contexts"`
+			Culprit     string `json:"culprit"`
+			Environment string `json:"environment"`
+			Exception   struct {
 				Values []struct {
+					Type       string `json:"type"`
+					Value      string `json:"value"`
+					Module     string `json:"module"`
 					Stacktrace struct {
 						Frames []struct {
-							Function        string      `json:"function"`
-							AbsPath         string      `json:"abs_path"`
-							Errors          interface{} `json:"errors"`
-							PreContext      []string    `json:"pre_context"`
-							Vars            interface{} `json:"vars"`
-							Package         interface{} `json:"package"`
-							ContextLine     string      `json:"context_line"`
-							Symbol          interface{} `json:"symbol"`
-							ImageAddr       interface{} `json:"image_addr"`
-							Module          interface{} `json:"module"`
-							InApp           bool        `json:"in_app"`
-							SymbolAddr      interface{} `json:"symbol_addr"`
-							Filename        string      `json:"filename"`
-							PostContext     []string    `json:"post_context"`
-							Colno           interface{} `json:"colno"`
-							RawFunction     interface{} `json:"raw_function"`
-							Trust           interface{} `json:"trust"`
-							Data            interface{} `json:"data"`
-							Platform        interface{} `json:"platform"`
-							InstructionAddr interface{} `json:"instruction_addr"`
-							Lineno          int         `json:"lineno"`
+							Function string `json:"function"`
+							Filename string `json:"filename"`
+							AbsPath  string `json:"abs_path"`
+							Lineno   int    `json:"lineno"`
+							InApp    bool   `json:"in_app"`
 						} `json:"frames"`
 					} `json:"stacktrace"`
-					Type   string `json:"type"`
-					Module string `json:"module"`
-					Value  string `json:"value"`
+					ThreadID int `json:"thread_id"`
 				} `json:"values"`
 			} `json:"exception"`
-			Extra struct {
-				Server struct {
-					Runtime struct {
-						Version string `json:"version"`
-						Name    string `json:"name"`
-					} `json:"runtime"`
-					Os struct {
-						KernelVersion string `json:"kernel_version"`
-						Version       string `json:"version"`
-						Build         string `json:"build"`
-						Name          string `json:"name"`
-					} `json:"os"`
-				} `json:"server"`
-			} `json:"extra"`
 			Fingerprint    []string `json:"fingerprint"`
 			GroupingConfig struct {
 				Enhancements string `json:"enhancements"`
@@ -80,18 +72,28 @@ type EventAlert struct {
 			Location string   `json:"location"`
 			Logger   string   `json:"logger"`
 			Metadata struct {
-				Function string `json:"function"`
-				Type     string `json:"type"`
-				Value    string `json:"value"`
-				Filename string `json:"filename"`
+				DisplayTitleWithTreeLabel bool   `json:"display_title_with_tree_label"`
+				Filename                  string `json:"filename"`
+				Function                  string `json:"function"`
+				Type                      string `json:"type"`
+				Value                     string `json:"value"`
 			} `json:"metadata"`
-			Received float64 `json:"received"`
-			Sdk      struct {
-				Version      string      `json:"version"`
-				Name         string      `json:"name"`
-				Packages     interface{} `json:"packages"`
-				Integrations interface{} `json:"integrations"`
+			Modules struct {
+				ZxcvbnRuby string `json:"zxcvbn-ruby"`
+			} `json:"modules"`
+			NodestoreInsert float64 `json:"nodestore_insert"`
+			Received        float64 `json:"received"`
+			Sdk             struct {
+				Name    string `json:"name"`
+				Version string `json:"version"`
 			} `json:"sdk"`
+			Threads struct {
+				Values []struct {
+					ID      int  `json:"id"`
+					Crashed bool `json:"crashed"`
+					Current bool `json:"current"`
+				} `json:"values"`
+			} `json:"threads"`
 			Timestamp float64 `json:"timestamp"`
 			Title     string  `json:"title"`
 			Type      string  `json:"type"`
@@ -99,17 +101,66 @@ type EventAlert struct {
 			URL       string  `json:"url"`
 			WebURL    string  `json:"web_url"`
 			IssueURL  string  `json:"issue_url"`
+			IssueID   string  `json:"issue_id"`
 		} `json:"event"`
 		TriggeredRule string `json:"triggered_rule"`
 	} `json:"data"`
-	Installation struct {
-		UUID string `json:"uuid"`
-	} `json:"installation"`
 	Actor struct {
 		Type string `json:"type"`
 		ID   string `json:"id"`
 		Name string `json:"name"`
 	} `json:"actor"`
+}
+
+// CreatedAlert represents an event payload for a new issue creation event
+type CreatedAlert struct {
+	Action       string `json:"action"`
+	Installation struct {
+		UUID string `json:"uuid"`
+	} `json:"installation"`
+	Data struct {
+		Issue struct {
+			ID            string      `json:"id"`
+			ShareID       interface{} `json:"shareId"`
+			ShortID       string      `json:"shortId"`
+			Title         string      `json:"title"`
+			Culprit       string      `json:"culprit"`
+			Permalink     interface{} `json:"permalink"`
+			Logger        interface{} `json:"logger"`
+			Level         string      `json:"level"`
+			Status        string      `json:"status"`
+			StatusDetails struct {
+			} `json:"statusDetails"`
+			IsPublic bool   `json:"isPublic"`
+			Platform string `json:"platform"`
+			Project  struct {
+				ID       string `json:"id"`
+				Name     string `json:"name"`
+				Slug     string `json:"slug"`
+				Platform string `json:"platform"`
+			} `json:"project"`
+			Type     string `json:"type"`
+			Metadata struct {
+				Value                     string `json:"value"`
+				Type                      string `json:"type"`
+				Filename                  string `json:"filename"`
+				Function                  string `json:"function"`
+				DisplayTitleWithTreeLabel bool   `json:"display_title_with_tree_label"`
+			} `json:"metadata"`
+			NumComments         int           `json:"numComments"`
+			AssignedTo          interface{}   `json:"assignedTo"`
+			IsBookmarked        bool          `json:"isBookmarked"`
+			IsSubscribed        bool          `json:"isSubscribed"`
+			SubscriptionDetails interface{}   `json:"subscriptionDetails"`
+			HasSeen             bool          `json:"hasSeen"`
+			Annotations         []interface{} `json:"annotations"`
+			IsUnhandled         bool          `json:"isUnhandled"`
+			Count               string        `json:"count"`
+			UserCount           int           `json:"userCount"`
+			FirstSeen           time.Time     `json:"firstSeen"`
+			LastSeen            time.Time     `json:"lastSeen"`
+		} `json:"issue"`
+	} `json:"data"`
 }
 
 type WebhookPayload struct {

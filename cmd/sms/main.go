@@ -36,17 +36,13 @@ func main() {
 		channel := c.Param("channel")
 
 		jsonByteData, err := ioutil.ReadAll(c.Request.Body)
+		fmt.Println(string(jsonByteData))
+
 		if err != nil {
 			log.Fatalf("Error reading body: %v", err)
 		}
-		var payload EventAlert
-		err = json.Unmarshal(jsonByteData, &payload)
-		if err != nil {
-			c.AbortWithStatus(http.StatusBadRequest)
-			return
-		}
 
-		event, err := ConvertEvent(channel, jsonByteData)
+		event, err := ProcessEvent(channel, jsonByteData)
 		if err != nil {
 			c.AbortWithStatus(http.StatusBadRequest)
 			return
