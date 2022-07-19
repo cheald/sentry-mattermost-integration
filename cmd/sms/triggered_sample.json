@@ -1,0 +1,78 @@
+{
+    "action": "triggered",
+    "data": {
+        "event": {
+            "event_id": "874d5214a5a643cdadc7996e27abd52f",
+            "project": 1132523,
+            "release": null,
+            "dist": null,
+            "platform": "ruby",
+            "message": "this is a message",
+            "datetime": "2020-03-02T03:53:55.000000Z",
+            "tags": [
+                ["environment", "us"],
+                ["level", "error"],
+                ["logger", "ruby"],
+                ["server_name", "az-app1-ids-us"]
+            ],
+            "_metrics": {
+                "bytes.ingested.event": 19528,
+                "bytes.stored.event": 26451
+            },
+            "_relay_processed": true,
+            "culprit": "bin/rails in <main>",
+            "environment": "us",
+            "extra": {
+                "server": {
+                    "runtime": {
+                        "version": "ruby 2.5.7p206 (2019-10-01 revision 67816) [x86_64-linux]",
+                        "name": "ruby"
+                    },
+                    "os": {
+                        "kernel_version": "Linux az-app1-ids-us 4.15.0-65-generic #74-Ubuntu SMP Tue Sep 17 17:06:04 UTC 2019 x86_64 GNU/Linux",
+                        "version": "#74-Ubuntu SMP Tue Sep 17 17:06:04 UTC 2019",
+                        "build": "4.15.0-65-generic",
+                        "name": "Linux"
+                    }
+                }
+            },
+            "fingerprint": ["{{ default }}"],
+            "grouping_config": {
+                "enhancements": "eJybzDhxY3J-bm5-npWRgaGlroGxrpHxBABcTQcY",
+                "id": "newstyle:2019-05-08"
+            },
+            "hashes": [
+                "40b58c4181e5d7b28fa63572fc06365c",
+                "06b5aad9a03e0a4ce12aae87f01df410"
+            ],
+            "key_id": "554315",
+            "level": "error",
+            "location": "bin/rails",
+            "logger": "ruby",
+            "metadata": {
+                "function": "<main>",
+                "type": "RuntimeError",
+                "value": "test exception",
+                "filename": "bin/rails"
+            },
+
+            "received": 1583121235.59859,
+            "sdk": {
+                "version": "2.13.0",
+                "name": "raven-ruby",
+                "packages": null,
+                "integrations": null
+            },
+            "timestamp": 1583121235.0,
+            "title": "RuntimeError: test exception",
+            "type": "error",
+            "version": "5",
+            "url": "https://sentry.io/api/0/projects/ttiltd/ids/events/874d5214a5a643cdadc7996e27abd52f/",
+            "web_url": "https://sentry.io/organizations/ttiltd/issues/1542010834/events/874d5214a5a643cdadc7996e27abd52f/",
+            "issue_url": "https://sentry.io/api/0/issues/1542010834/"
+        },
+        "triggered_rule": "Send a notification for new issues"
+    },
+    "installation": { "uuid": "5bd7ae05-29c5-495e-9a37-6c887d42fb2e" },
+    "actor": { "type": "application", "id": "sentry", "name": "Sentry" }
+}
